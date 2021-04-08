@@ -1,2 +1,3 @@
-class RecipeController < ActionController::Base
+class RecipesController < ActionController::Base 
+    before_action :require_login 
 end

@@ -1,14 +1,16 @@
-class SessionController < ActionController::Base
+class SessionsController < ActionController::Base
     def new
         # nothing to do here!
     end
 
     def create
-        session[:username] = params[:username]
-        redirect_to '/'
-    end 
+        @user = User.find_by(username: params[:username]) 
+        return head(:forbidden) unless @user.authenticate(params[:password])
+        session[:user_id] = @user.id 
+        redirect_to search_path
+      end
 
     def destroy
         session.delete :username
       end 
-end
+end 
