@@ -1,0 +1,24 @@
+<h1> Need to make a little tweek to your recipe? </h1> 
+<h2> You can do that here </h2> 
+
+<%= form_for @recipe do |f| %>
+    <%= f.label 'Name' %><br>
+    <%= f.text_field :name %><br>
+  
+    <%= f.label 'Difficulty Level' %><br>
+    <%= f.text_area :difficulty_level %><br> 
+
+    <%= f.label 'Cooking Time' %><br>
+    <%= f.text_area :time %><br>     
+
+    <%= f.label 'Servings' %><br>
+    <%= f.text_area :servings %><br> 
+    
+    <%= f.label 'Ingredients Used:' %><br>
+    <%= f.text_area :ingredients %><br>  
+
+    <%= f.label 'Description/Instructions' %><br>
+    <%= f.text_field :description %><br> 
+  
+    <%= f.submit "Edit Recipe" %>
+  <% end %>   

@@ -1,6 +1,6 @@
-class CreateTableComment < ActiveRecord::Migration[6.1]
+class CreateUserRecipes < ActiveRecord::Migration[6.1]
   def change
-    create_table :table_comments do |t|
+    create_table :user_recipes do |t|
       t.integer :user_id
       t.integer :recipe_id
 

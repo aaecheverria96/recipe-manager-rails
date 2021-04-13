@@ -10,39 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_212919) do
+ActiveRecord::Schema.define(version: 2021_04_12_200109) do
 
-  create_table "table_comments", force: :cascade do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "recipe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "table_ingredients", force: :cascade do |t|
+  create_table "ingredients", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "table_recipe_ingredients", force: :cascade do |t|
+  create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "recipe_id", null: false
+    t.integer "ingredient_id", null: false
+    t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
   end
 
-  create_table "table_recipe_tables", force: :cascade do |t|
-    t.string "ingredients"
+  create_table "recipes", force: :cascade do |t|
     t.string "time"
     t.string "name"
     t.string "description"
-    t.string "difficulty_level"
+    t.integer "difficulty_level"
     t.integer "servings"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "table_user_recipes", force: :cascade do |t|
+  create_table "user_recipes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "recipe_id"
     t.datetime "created_at", precision: 6, null: false
@@ -57,4 +60,6 @@ ActiveRecord::Schema.define(version: 2021_04_05_212919) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "recipe_ingredients", "ingredients", on_delete: :cascade
+  add_foreign_key "recipe_ingredients", "recipes", on_delete: :cascade
 end
