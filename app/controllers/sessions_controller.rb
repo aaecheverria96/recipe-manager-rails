@@ -14,6 +14,16 @@ class SessionsController < ActionController::Base
       end
     end 
 
+    def omniauth 
+      user = User.from_omniauth(request.env['omniauth.auth']) 
+        if user.valid? 
+          session[:user_id] = user.id 
+          redirect_to recipes_path 
+        else 
+          redirect_to '/login' 
+        end 
+    end 
+
     def destroy
         session.delete :user_id
         redirect_to login_path

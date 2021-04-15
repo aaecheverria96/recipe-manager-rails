@@ -13,7 +13,7 @@ class RecipesController < ApplicationController
         else 
             render :edit 
         end  
-      end 
+    end 
     
     def index 
        @recipes = Recipe.all.order(:name) 
@@ -24,6 +24,11 @@ class RecipesController < ApplicationController
         redirect_to recipe_path(@recipe)
     end 
 
+    def destroy 
+        find_recipe.destroy 
+        redirect_to recipes_path
+    end 
+
     def show 
         find_recipe  
     end  
@@ -31,17 +36,16 @@ class RecipesController < ApplicationController
     def create 
         @recipe = Recipe.create(recipe_params) 
         if @recipe.valid? 
-            ingredients = params[:recipe][:ingredients].split(",")  
-            quantities = params[:recipe][:quantities].split(",") 
+            ingredients = params[:recipe][:ingredients_names].split(",")  
+            quantities = params[:recipe][:ingredients_quantities].split(",") 
             ingredients.each_with_index do |i, index| 
-                
                 item = Ingredient.find_or_create_by(name: i.capitalize.strip) 
                 recipe_item =  @recipe.recipe_ingredients.build(ingredient_id: item.id, quantity: quantities[index].strip.capitalize) 
                 recipe_item.save 
                if !recipe_item.valid? 
                 flash[:error] = "Could not save #{item.name}" 
                end 
-            end 
+            end
             redirect_to recipe_path(@recipe)
         else 
           render :new 

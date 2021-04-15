@@ -8,21 +8,22 @@ class UsersController < ActionController::Base
         @user = User.create(user_params) 
         if @user.valid? 
           session[:user_id] = @user.id 
-          redirect_to search_path 
+          redirect_to recipes_path 
         else 
-          render :new 
-        end 
+        render :new 
+    end 
   end  
 
   def show 
     @user = User.find(params[:id]) 
   end 
 
+  
       
     
-      private
+  private
     
-      def user_params
+    def user_params
         params.require(:user).permit(:username, :password, :password_confirmation)
-      end
+    end 
 end

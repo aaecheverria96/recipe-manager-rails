@@ -4,10 +4,21 @@
 <h4> Serving size:<%= @recipe.servings %> </h4> 
 <h4> Cooking time:<%= @recipe.time %> </h4> 
 <h4> Level of Difficulty:<%= @recipe.difficulty_level %> </h4> 
-<h4> Ingredients:<%= @recipe.ingredients %> </h4> 
+<h4> Ingredients:  </h4> 
+<ul> 
+    <% @recipe.format_ingredient_quantities.each do |s| %> 
+        <li> <%= s %> </li> 
+    <% end %> 
+</ul> 
 <h4> Description:<%= @recipe.description %> </h4> 
 
 
-<%= link_to "All Recipes", recipes_path%>  
+<%= link_to "All Recipes", recipes_path%><br> 
+
+<%= link_to "Edit Recipe", recipe_path(@recipe)%><br>  
+
+<%= button_to "Delete Recipe", recipe_path(@recipe), method: :delete%><br> 
+
+
 
 

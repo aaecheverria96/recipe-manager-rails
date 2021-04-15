@@ -1,5 +1,5 @@
 class Recipe < ApplicationRecord 
-    attr_accessor :ingredients, :quantities 
+    attr_accessor :ingredients_names, :ingredients_quantities
     validates :name, presence: true, uniqueness: true 
     validates :time, presence: true 
     validates :description, presence: true  
@@ -10,5 +10,14 @@ class Recipe < ApplicationRecord
     has_many  :recipe_ingredients 
     has_many :ingredients, through: :recipe_ingredients 
 
-    scope :search_by_keyword, -> (search){where("name LIKE ?", "#{search}%").order(:name)} 
+    scope :search_by_keyword, -> (search){where("name LIKE ?", "#{search}%").order(:name)}  
+
+   
+
+    def format_ingredient_quantities
+        self.recipe_ingredients.map do |ri| 
+            "#{ri.ingredient.name}, #{ri.quantity}"  
+
+        end 
+    end 
 end
