@@ -5,24 +5,20 @@ class RecipesController < ApplicationController
         @recipe = Recipe.new 
     end  
 
-    def update
-        @recipe = Recipe.find(params[:id])
-        if @recipe.update(recipe_params) 
+    def edit 
+        find_recipe  
+        redirect_to recipe_path(@recipe)
+    end 
 
-            redirect_to recipe_path(@recipe) 
-        else 
-            render :edit 
-        end  
+    def update
+        find_recipe 
+        @recipe.update(recipe_params)
+        redirect_to recipe_path(@recipe) 
     end 
     
     def index 
        @recipes = Recipe.all.order(:name) 
     end  
-
-    def edit 
-        find_recipe  
-        redirect_to recipe_path(@recipe)
-    end 
 
     def destroy 
         find_recipe.destroy 
@@ -31,6 +27,7 @@ class RecipesController < ApplicationController
 
     def show 
         find_recipe  
+        @comment = Comment.new(recipe: @recipe)
     end  
 
     def create 

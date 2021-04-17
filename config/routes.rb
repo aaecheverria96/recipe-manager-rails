@@ -6,10 +6,14 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create" 
   post "/logout", to: "sessions#destroy"   
   get "/signup", to: "users#new" 
-
+  post "/signup", to: "users#new" 
+  patch '/recipes/:id', to: 'recipes#update' 
   
-  resources :recipes, only: [:show, :create, :new, :edit, :update, :index, :destroy]  
-  resources :users, only: [:show, :create, :edit, :update]  
+  
+  
+  resources :recipes, only: [:show, :create, :new, :edit, :update, :index, :destroy]   
+  resources :users, only: [:show, :create, :edit, :update, :myrecipes]  
+  resources :comments, only: [:new, :create] 
   
   
   

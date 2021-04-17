@@ -18,7 +18,9 @@ class UsersController < ActionController::Base
     @user = User.find(params[:id]) 
   end 
 
-  
+  def myrecipes 
+    @myrecipes = current_user.recipes.all 
+  end 
       
     
   private

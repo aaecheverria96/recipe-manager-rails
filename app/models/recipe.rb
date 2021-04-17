@@ -1,4 +1,5 @@
 class Recipe < ApplicationRecord 
+    belongs_to :owner, class_name: "User"
     attr_accessor :ingredients_names, :ingredients_quantities
     validates :name, presence: true, uniqueness: true 
     validates :time, presence: true 
@@ -9,6 +10,7 @@ class Recipe < ApplicationRecord
     has_many :users, through: :user_recipes 
     has_many  :recipe_ingredients 
     has_many :ingredients, through: :recipe_ingredients 
+    has_many :comments 
 
     scope :search_by_keyword, -> (search){where("name LIKE ?", "#{search}%").order(:name)}  
 

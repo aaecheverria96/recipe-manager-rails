@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_023252) do
+ActiveRecord::Schema.define(version: 2021_04_17_201225) do
 
   create_table "comments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "recipe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "text"
   end
 
   create_table "ingredients", force: :cascade do |t|
@@ -35,15 +36,8 @@ ActiveRecord::Schema.define(version: 2021_04_15_023252) do
     t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
   end
 
-  create_table "recipes", force: :cascade do |t|
-    t.string "time"
-    t.string "name"
-    t.string "description"
-    t.integer "difficulty_level"
-    t.integer "servings"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
+# Could not dump table "recipes" because of following StandardError
+#   Unknown type 'resources' for column 'owner_id'
 
   create_table "user_recipes", force: :cascade do |t|
     t.integer "user_id"

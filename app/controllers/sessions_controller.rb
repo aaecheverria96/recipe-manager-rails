@@ -6,7 +6,8 @@ class SessionsController < ActionController::Base
     def create 
        @user = User.find_by(username: params[:username]) 
        if  @user && @user.authenticate(params[:password])
-          session[:user_id] = @user.id 
+          session[:user_id] = @user.id  
+          flash[:success] = "Login successfull"
           redirect_to recipes_path 
        else 
         # flash[:notice] = "Invalid Credentials" 
@@ -17,10 +18,11 @@ class SessionsController < ActionController::Base
     def omniauth 
       user = User.from_omniauth(request.env['omniauth.auth']) 
         if user.valid? 
-          session[:user_id] = user.id 
+          session[:user_id] = user.id  
+          flash[:success] = "Login Successful!"
           redirect_to recipes_path 
         else 
-          redirect_to '/login' 
+           redirect_to '/login' 
         end 
     end 
 
