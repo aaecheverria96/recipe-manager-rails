@@ -6,4 +6,14 @@ module ApplicationHelper
     def loggedin?
         !!current_user 
     end 
+
+    def recipe_index 
+
+     tag.ul do 
+         @recipes.each do |recipe| 
+           concat content_tag :li, link_to(recipe.name, recipe_path(recipe))
+        end 
+    end.html_safe
+
+    end 
 end

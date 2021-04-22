@@ -1,6 +1,6 @@
 class User < ApplicationRecord 
-    has_secure_password
-    has_many :recipes 
+    has_secure_password 
+    has_many :user_recipes
     has_many :recipes, through: :user_recipes 
 
     def self.from_omniauth(response) 

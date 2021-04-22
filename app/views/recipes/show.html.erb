@@ -15,10 +15,11 @@
 
 <%= link_to "All Recipes", recipes_path%><br> 
 
-<%= button_to "Edit Recipe", recipe_path(@recipe), method: :edit%><br>  
+<% if current_user.id = @recipe.creator_id %>
+<%= link_to "Edit Recipe", edit_recipe_path(@recipe)%><br>  
 
 <%= button_to "Delete Recipe", recipe_path(@recipe), method: :delete%><br> 
-
+<% end %> 
 
 <%= form_for @comment do |f| %>  
     <%= f.label 'Add a comment' %><br> 

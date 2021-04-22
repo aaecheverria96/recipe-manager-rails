@@ -7,13 +7,21 @@ Rails.application.routes.draw do
   post "/logout", to: "sessions#destroy"   
   get "/signup", to: "users#new" 
   post "/signup", to: "users#new" 
-  patch '/recipes/:id', to: 'recipes#update' 
+  get '/recipes/search', to: 'recipes#search' 
+  
+
+
+
+  resources :users, only: [:show, :index] do
+    # nested resource for resources 
+    resources :recipes, only: [:show, :index, :new] 
+  end
   
   
   
-  resources :recipes, only: [:show, :create, :new, :edit, :update, :index, :destroy]   
+  resources :recipes, only: [:show, :create, :new, :edit, :update, :index, :destroy] 
   resources :users, only: [:show, :create, :edit, :update, :myrecipes]  
-  resources :comments, only: [:new, :create] 
+  resources :comments, only: [:new, :create]  
   
   
   

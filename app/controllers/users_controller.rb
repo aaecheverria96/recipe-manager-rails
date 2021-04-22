@@ -15,15 +15,15 @@ class UsersController < ActionController::Base
   end  
 
   def show 
-    @user = User.find(params[:id]) 
+   find_user
   end 
 
-  def myrecipes 
-    @myrecipes = current_user.recipes.all 
-  end 
-      
-    
+
   private
+
+    def find_user 
+      @user = User.find_by_id(params[:id]) 
+    end 
     
     def user_params
         params.require(:user).permit(:username, :password, :password_confirmation)

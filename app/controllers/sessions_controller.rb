@@ -1,6 +1,6 @@
 class SessionsController < ActionController::Base
     def new
-        # nothing to do here!
+      
     end
 
     def create 
@@ -10,7 +10,6 @@ class SessionsController < ActionController::Base
           flash[:success] = "Login successfull"
           redirect_to recipes_path 
        else 
-        # flash[:notice] = "Invalid Credentials" 
         redirect_to login_path, notice: "Invalid Credentials" 
       end
     end 

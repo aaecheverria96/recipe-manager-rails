@@ -1,38 +1,52 @@
 class RecipesController < ApplicationController
-    # before_action :require_login 
+    before_action :find_recipe, only: [:edit, :update, :destroy, :show]
+    before_action :redirect_if_not_creator, only: [:edit, :update, :destroy]
 
     def new 
-        @recipe = Recipe.new 
+        @recipe = Recipe.new(creator_id: current_user.id)
     end  
 
     def edit 
-        find_recipe  
-        redirect_to recipe_path(@recipe)
+    
     end 
 
-    def update
-        find_recipe 
-        @recipe.update(recipe_params)
-        redirect_to recipe_path(@recipe) 
+    def update  
+        if @recipe.update(recipe_params)
+            redirect_to recipe_path(@recipe) 
+        else 
+            render :edit 
+        end 
     end 
     
     def index 
-       @recipes = Recipe.all.order(:name) 
+        if params[:search]
+            @recipes = Recipe.search_by_name(params["search"])
+         elsif params[:user_id] 
+           
+            @recipes = User.find_by_id(params[:user_id]).recipes
+        else 
+            @recipes = Recipe.all.order(:name) 
+        end 
     end  
 
     def destroy 
-        find_recipe.destroy 
-        redirect_to recipes_path
+       if  @recipe.destroy 
+            redirect_to recipes_path
+       else 
+           flash[:error] =  @recipe.errors.full_messages 
+            redirect_to recipe_path(@recipe) 
+       end 
     end 
 
-    def show 
-        find_recipe  
+    def show  
         @comment = Comment.new(recipe: @recipe)
     end  
 
     def create 
-        @recipe = Recipe.create(recipe_params) 
-        if @recipe.valid? 
+        @recipe = Recipe.new(recipe_params)  
+        @recipe.creator_id = current_user.id 
+        if @recipe.save
+            current_user.recipes << @recipe 
             ingredients = params[:recipe][:ingredients_names].split(",")  
             quantities = params[:recipe][:ingredients_quantities].split(",") 
             ingredients.each_with_index do |i, index| 
@@ -49,6 +63,8 @@ class RecipesController < ApplicationController
         end 
     end  
 
+   
+
     private 
 
     def find_recipe 
@@ -56,7 +72,13 @@ class RecipesController < ApplicationController
     end  
 
     def recipe_params 
-        params.require(:recipe).permit(:name, :description, :time, :difficulty_level, :servings) 
+        params.require(:recipe).permit(:name, :description, :time, :difficulty_level, :servings, :creator_id) 
+    end 
+
+    def redirect_if_not_creator 
+        if @recipe.creator != current_user  
+            redirect_to recipe_path(@recipe)
+        end 
     end 
 
 end
