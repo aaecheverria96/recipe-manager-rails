@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
         if @comment.save
             flash[:success] = "Comment successfully created"
         else 
-            redirect_to recipe_path(@comment.recipe)
             flash[:error] = @comment.errors.full_messages.to_sentence 
         end 
         redirect_to recipe_path(@comment.recipe)

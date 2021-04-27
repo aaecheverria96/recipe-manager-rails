@@ -1,5 +1,9 @@
-
-<%= form_for @recipe do |f| %>
+<% if @recipe.errors.any? %> 
+    <% @recipe.errors.full_messages.each do |error| %> 
+       <div> <%= error %> </div>
+    <% end %>
+<% end %>
+<%= form_for [@user, @recipe] do |f| %>
 
 <%= f.label 'Name' %><br>
 <%= f.text_field :name %><br>
@@ -14,11 +18,11 @@
 <%= f.text_area :servings %><br> 
 
 <%= f.label 'Ingredients Used:' %><br>
-Names<%= f.text_area :ingredients_names%><br>
-Quantities<%= f.text_area :ingredients_quantities %><br>
+Names <%= f.text_area :ingredients_names, :value => @recipe.show_ingredient_names %>
+Quantities<%= f.text_area :ingredients_quantities, :value => @recipe.show_ingredient_quantities  %>
 
 <%= f.label 'Description/Instructions' %><br>
 <%= f.text_field :description %><br> 
 
 <%= f.submit "Submit Recipe" %>
-<% end %>
+<% end %>  

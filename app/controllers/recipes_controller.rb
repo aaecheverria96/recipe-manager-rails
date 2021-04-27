@@ -3,7 +3,12 @@ class RecipesController < ApplicationController
     before_action :redirect_if_not_creator, only: [:edit, :update, :destroy]
 
     def new 
-        @recipe = Recipe.new(creator_id: current_user.id)
+        if params[:user_id]
+            @user = User.find_by_id(params[:user_id]) 
+            @recipe = @user.recipes.build(creator_id: @user.id)
+        else 
+            @recipe = Recipe.new 
+        end 
     end  
 
     def edit 
@@ -11,12 +16,21 @@ class RecipesController < ApplicationController
     end 
 
     def update  
-        if @recipe.update(recipe_params)
-            redirect_to recipe_path(@recipe) 
-        else 
-            render :edit 
-        end 
-    end 
+        if @recipe.update(recipe_params) 
+            ingredients = params[:recipe][:ingredients_names].split(",")
+            quantities = params[:recipe][:ingredients_quantities].split(",")
+            ingredients.each_with_index do |i, index| 
+                item = Ingredient.find_or_create_by(name: i.capitalize.strip) 
+                recipe_item =  @recipe.recipe_ingredients.build(ingredient_id: item.id, quantity: quantities[index].strip.capitalize) 
+                recipe_item.save 
+            end 
+                flash[:success] = "Edit successfull"
+                redirect_to recipe_path(@recipe) 
+            else 
+                flash[:error] =  @recipe.errors.full_messages
+                render :edit 
+            end 
+    end
     
     def index 
         if params[:search]
@@ -30,7 +44,8 @@ class RecipesController < ApplicationController
     end  
 
     def destroy 
-       if  @recipe.destroy 
+       if  @recipe.destroy
+        flash[:success] = "Deleted"
             redirect_to recipes_path
        else 
            flash[:error] =  @recipe.errors.full_messages 
@@ -39,7 +54,7 @@ class RecipesController < ApplicationController
     end 
 
     def show  
-        @comment = Comment.new(recipe: @recipe)
+        @comment = Comment.new(recipe: @recipe) 
     end  
 
     def create 

@@ -22,4 +22,16 @@ class Recipe < ApplicationRecord
 
         end 
     end 
+
+    def show_ingredient_names 
+        self.recipe_ingredients.map do |ri| 
+            "#{ri.ingredient.name}"
+        end 
+    end 
+
+    def show_ingredient_quantities 
+        self.recipe_ingredients.map do |ri| 
+            "#{ri.quantity}" 
+        end 
+    end 
 end
