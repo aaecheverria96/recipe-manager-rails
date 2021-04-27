@@ -15,7 +15,8 @@ class UsersController < ActionController::Base
   end  
 
   def show 
-   find_user
+   find_user 
+   byebug   
   end 
 
 
