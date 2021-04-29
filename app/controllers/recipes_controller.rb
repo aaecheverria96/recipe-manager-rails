@@ -19,17 +19,23 @@ class RecipesController < ApplicationController
         if @recipe.update(recipe_params) 
             ingredients = params[:recipe][:ingredients_names].split(",")
             quantities = params[:recipe][:ingredients_quantities].split(",")
+            new_recipe_ingredients = []
+            old_recipe_ingredients = @recipe.recipe_ingredients.map(&:id) 
             ingredients.each_with_index do |i, index| 
                 item = Ingredient.find_or_create_by(name: i.capitalize.strip) 
-                recipe_item =  @recipe.recipe_ingredients.build(ingredient_id: item.id, quantity: quantities[index].strip.capitalize) 
-                recipe_item.save 
-            end 
-                flash[:success] = "Edit successfull"
-                redirect_to recipe_path(@recipe) 
-            else 
-                flash[:error] =  @recipe.errors.full_messages
-                render :edit 
-            end 
+                recipe_item =  RecipeIngredient.find_or_create_by(ingredient_id: item.id, recipe_id: @recipe.id) do  |ri| 
+                   ri.quantity = quantities[index].strip.capitalize 
+                end 
+                new_recipe_ingredients << recipe_item.id 
+            end
+            ids = old_recipe_ingredients - new_recipe_ingredients 
+            ids.each  { |id| RecipeIngredient.delete(id) } 
+            flash[:success] = "Edit successfull"
+            redirect_to recipe_path(@recipe) 
+        else 
+            flash[:error] =  @recipe.errors.full_messages
+            render :edit 
+        end 
     end
     
     def index 

@@ -2,9 +2,10 @@
     <% @recipe.errors.full_messages.each do |error| %> 
        <div> <%= error %> </div>
     <% end %>
-<% end %>
-<%= form_for [@user, @recipe] do |f| %>
+<% end %> 
 
+<%= form_for [@user, @recipe] do |f| %>
+    byebug 
 <%= f.label 'Name' %><br>
 <%= f.text_field :name %><br>
 

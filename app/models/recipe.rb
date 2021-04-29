@@ -25,13 +25,13 @@ class Recipe < ApplicationRecord
 
     def show_ingredient_names 
         self.recipe_ingredients.map do |ri| 
-            "#{ri.ingredient.name}"
-        end 
-    end 
+            ri.ingredient.name
+        end.join(", ")
+    end
 
     def show_ingredient_quantities 
         self.recipe_ingredients.map do |ri| 
-            "#{ri.quantity}" 
-        end 
+            ri.quantity
+        end.join(", ")
     end 
 end
