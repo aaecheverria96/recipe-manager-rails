@@ -33,7 +33,6 @@ class RecipesController < ApplicationController
             flash[:success] = "Edit successfull"
             redirect_to recipe_path(@recipe) 
         else 
-            flash[:error] =  @recipe.errors.full_messages
             render :edit 
         end 
     end
