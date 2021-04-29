@@ -1,19 +1,20 @@
-# README
+# Rails Recipe Manager Project 
 
-1. Create Recipe table 
-    - has ingredients, cooking time, name, description, level of difficulty, serving size 
+# Goal 
+Create a Recipe Manager application that allows users to create, edit and share their own food recipes. Users can only delete and edit their own recipes. Also once they create a recipe it is immediately affiliated with that specific user. A user should be able to log in with their google account also. 
 
-2. Create User table 
-    - has a username, password and email 
+# Tables 
+This project must have 6 tables - comments, ingredients, recipe-ingredients, recipes, user-recipes and users. 
 
-3. Create UserRecipeTable table 
-    - has user_id, has recipe_id, notes(string) 
+- Comments should have a user_id, recipe_id and a text 
 
-4. Create Ingredient table 
+- Ingredients should have a name 
 
-5. Create RecipeIngredientTable 
+- Recipe-ingredients should be a joint table between recipes and ingredients. Should have quanitity 
 
-6. Create Comment Table 
+- User-recipes should be the joint table between users and recipes 
 
-7. Create models using rails g model __ --skip-migration 
+- Users should have a username, email, passowrd_digest, provider, and uid
+
+
 
