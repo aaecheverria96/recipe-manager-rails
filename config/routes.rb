@@ -8,13 +8,13 @@ Rails.application.routes.draw do
   get "/signup", to: "users#new" 
   post "/signup", to: "users#new" 
   get '/recipes/search', to: 'recipes#search' 
-  
+  get '/favorites', to: 'recipes#favorites'  
 
 
 
   resources :users, only: [:show, :index] do
     # nested resource for resources 
-    resources :recipes, only: [:show, :index, :new, :create] 
+    resources :recipes, only: [:new, :show, :index, :new, :create] 
   end
   
   

@@ -10,12 +10,13 @@
         <li> <%= s %> </li> 
     <% end %> 
 </ul> 
-<h4> Description:<%= @recipe.description %> </h4> 
+<h4> Description:<%= @recipe.description %> </h4>  
+<a href="/recipes/<%= @recipe.id %>"></a> <a class = "btn btn-primary" href="/favorites"><%= @recipe.like_or_unlike(current_user) %></a> 
 
 
 <%= link_to "All Recipes", recipes_path%><br> 
 
-<% if current_user.id = @recipe.creator_id %>
+<% if current_user.id == @recipe.creator_id %>
 <%= link_to "Edit Recipe", edit_recipe_path(@recipe)%><br>  
 
 <%= button_to "Delete Recipe", recipe_path(@recipe), method: :delete%><br> 

@@ -1,7 +1,7 @@
 <h1> All of your recipes </h1> 
 
 <p>Recipes:</p>
-<% @user.recipes.each do |recipe| %>
-  <div><%= recipe.name %></div>
+<% @user.created_recipes.each do |recipe| %>
+  <div><%= link_to recipe.name, recipe %></div>
 <% end %> 
 

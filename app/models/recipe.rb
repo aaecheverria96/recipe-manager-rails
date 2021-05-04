@@ -5,8 +5,6 @@ class Recipe < ApplicationRecord
     validates :description, presence: true  
     validates :difficulty_level, presence: true, numericality: {less_than_or_equal_to: 5}
     validates :servings, presence: true
-    has_many :user_recipes
-    has_many :users, through: :user_recipes 
     has_many  :recipe_ingredients 
     has_many :ingredients, through: :recipe_ingredients 
     has_many :comments 
@@ -33,5 +31,13 @@ class Recipe < ApplicationRecord
         self.recipe_ingredients.map do |ri| 
             ri.quantity
         end.join(", ")
+    end 
+
+    def like_or_unlike(current_user) 
+        if current_user.saved_recipes.include?(self) 
+           "Unlike" 
+        else 
+           "Like" 
+        end  
     end 
 end

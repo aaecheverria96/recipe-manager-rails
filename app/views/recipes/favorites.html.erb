@@ -1,0 +1,6 @@
+<h1> All of your Favorites!! </h1> 
+
+<p>Recipes:</p>
+<% @favorites.each do |recipe| %>
+  <div><%= link_to recipe.name, recipe %></div>
+<% end %> 

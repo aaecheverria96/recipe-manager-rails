@@ -5,7 +5,7 @@ class RecipesController < ApplicationController
     def new 
         if params[:user_id]
             @user = User.find_by_id(params[:user_id]) 
-            @recipe = @user.recipes.build(creator_id: @user.id)
+            @recipe = @user.created_recipes.build(creator_id: @user.id)
         else 
             @recipe = Recipe.new 
         end 
@@ -42,7 +42,7 @@ class RecipesController < ApplicationController
             @recipes = Recipe.search_by_name(params["search"])
          elsif params[:user_id] 
            
-            @recipes = User.find_by_id(params[:user_id]).recipes
+            @recipes = User.find_by_id(params[:user_id]).created_recipes
         else 
             @recipes = Recipe.all.order(:name) 
         end 
@@ -66,7 +66,7 @@ class RecipesController < ApplicationController
         @recipe = Recipe.new(recipe_params)  
         @recipe.creator_id = current_user.id 
         if @recipe.save
-            current_user.recipes << @recipe 
+            current_user.saved_recipes << @recipe 
             ingredients = params[:recipe][:ingredients_names].split(",")  
             quantities = params[:recipe][:ingredients_quantities].split(",") 
             ingredients.each_with_index do |i, index| 
@@ -83,6 +83,16 @@ class RecipesController < ApplicationController
         end 
     end  
 
+    def favorites 
+        find_recipe 
+         @favorites = current_user.saved_recipes 
+        if @favorites.include?(@recipe)
+            @favorites.destroy(@recipe)  
+        else
+            @favorites << @recipe 
+        end
+        redirect_to favorites_path 
+    end 
    
 
     private 
