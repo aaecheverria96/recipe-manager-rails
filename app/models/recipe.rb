@@ -33,7 +33,7 @@ class Recipe < ApplicationRecord
         end.join(", ")
     end 
 
-    def like_or_unlike(current_user) 
+    def save_or_unsave(current_user) 
         if current_user.saved_recipes.include?(self) 
            "Unlike" 
         else 

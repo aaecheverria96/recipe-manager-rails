@@ -11,7 +11,13 @@
     <% end %> 
 </ul> 
 <h4> Description:<%= @recipe.description %> </h4>  
-<a href="/recipes/<%= @recipe.id %>"></a> <a class = "btn btn-primary" href="/favorites"><%= @recipe.like_or_unlike(current_user) %></a> 
+
+<% if current_user.saved_recipes.include?(@recipe) %> 
+<%= button_to "Unlike", like_path(@recipe), :method => :patch %> 
+<% else %> 
+<%= button_to "Like", like_path(@recipe), :method => :patch %> 
+<% end %> 
+
 
 
 <%= link_to "All Recipes", recipes_path%><br> 

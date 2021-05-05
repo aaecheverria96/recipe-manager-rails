@@ -84,10 +84,14 @@ class RecipesController < ApplicationController
     end  
 
     def favorites 
-        find_recipe 
-         @favorites = current_user.saved_recipes 
+        @favorites = current_user.saved_recipes
+    end 
+
+    def make_favorites 
+        find_recipe
+        @favorites = current_user.saved_recipes 
         if @favorites.include?(@recipe)
-            @favorites.destroy(@recipe)  
+            @favorites.destroy(@recipe) 
         else
             @favorites << @recipe 
         end
