@@ -22,7 +22,7 @@ Names <%= f.text_area :ingredients_names, :value => @recipe.show_ingredient_name
 Quantities<%= f.text_area :ingredients_quantities, :value => @recipe.show_ingredient_quantities  %>
 
 <%= f.label 'Description/Instructions' %><br>
-<%= f.text_field :description %><br> 
+<%= f.text_area :description %><br> 
 
 <%= f.submit "Submit Recipe" %>
 <% end %>  

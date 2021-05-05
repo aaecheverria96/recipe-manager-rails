@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post "/signup", to: "users#new" 
   get '/recipes/search', to: 'recipes#search' 
   get '/favorites', to: 'recipes#favorites'  
-  patch '/favorites/:id/like', to: 'recipes#save_or_unsave', as: 'like' 
+  patch '/favorites/:id/like', to: 'recipes#make_favorites', as: 'like' 
   
   
   resources :users, only: [:show, :index] do
